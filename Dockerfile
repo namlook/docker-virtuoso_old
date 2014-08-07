@@ -9,12 +9,11 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get -y upgrade && \
     apt-get install -y build-essential && \
     apt-get install -y software-properties-common && \
-    apt-get install -y byobu curl git htop man vim wget iputils-arping iputils-clockdiff iputils-ping iputils-tracepath traceroute && \
-    apt-get -y install unzip autoconf automake libtool flex bison gperf gawk m4 make openssl libssl-dev net-tools
+    apt-get install -y byobu curl git htop man vim iputils-arping iputils-clockdiff iputils-ping iputils-tracepath traceroute && \
+    apt-get -y install unzip autoconf automake libtool flex bison gperf gawk m4 make openssl libssl-dev net-tools wget
 
 RUN adduser --disabled-password --home=/home/virtuoso --gecos "" virtuoso
 
-ADD ./virtuoso-opensource-7.1.0.zip /home/virtuoso/
 ADD ./install-virtuoso.sh /home/virtuoso/
 
 RUN chmod +x /home/virtuoso/install-virtuoso.sh
@@ -23,10 +22,9 @@ RUN chown -R virtuoso:virtuoso /home/virtuoso
 WORKDIR /home/virtuoso
 RUN su - virtuoso -c "/home/virtuoso/install-virtuoso.sh"
 
+ENV BACKEND virtuoso
 
 EXPOSE 8890 1111
-# RUN mkdir /home/virtuoso/virtuoso/share/data
-# VOLUME ['/home/virtuoso/virtuoso/var/lib/virtuoso/db', '/home/virtuoso/virtuoso/share/data']
 USER virtuoso
 CMD  /home/virtuoso/virtuoso/bin/virtuoso-t -f -c /home/virtuoso/virtuoso/var/lib/virtuoso/db/virtuoso.ini
 
