@@ -21,7 +21,7 @@ To persiste the data on the host's filesystem, create the folder (eg: `/virtuoso
 $ isql -H <virtuoso-container-ip> exec='set password dba abetterpassword;'
 ```
 
-# Enable SPARQL_UPDATE
+## Enable SPARQL_UPDATE
 
 ```
 $ isql -P abetterpassword -H <virtuoso-container-ip> exec='grant SPARQL_UPDATE to "SPARQL";'
