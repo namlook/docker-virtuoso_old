@@ -14,6 +14,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
 RUN adduser --disabled-password --home=/home/virtuoso --gecos "" virtuoso
 
+# uncomment if you don't want to download virtuoso each time you build the image.
+# Note that the file ./virtuoso-opensource-7.1.0.zip should be in a current directory
+# ADD ./virtuoso-opensource-7.1.0.zip /home/virtuoso/
 ADD ./install-virtuoso.sh /home/virtuoso/
 
 RUN chmod +x /home/virtuoso/install-virtuoso.sh
@@ -21,8 +24,6 @@ RUN chown -R virtuoso:virtuoso /home/virtuoso
 
 WORKDIR /home/virtuoso
 RUN su - virtuoso -c "/home/virtuoso/install-virtuoso.sh"
-
-ENV BACKEND virtuoso
 
 EXPOSE 8890 1111
 USER virtuoso
